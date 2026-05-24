@@ -1,0 +1,42 @@
+export const testimonials = [
+  {
+    id: 1,
+    quote: 'DODA GLOBAL has been our most reliable supplier for desiccated coconut. Their quality consistency and timely delivery have made them an indispensable partner in our supply chain.',
+    name: 'Ahmed Al-Rashid',
+    company: 'Gulf Foods Trading LLC',
+    country: 'UAE',
+    role: 'Procurement Director',
+  },
+  {
+    id: 2,
+    quote: 'The turmeric and black pepper sourced from DODA GLOBAL consistently meet our stringent European quality standards. Their documentation and compliance processes are exemplary.',
+    name: 'Stefan Mueller',
+    company: 'Eurospice GmbH',
+    country: 'Germany',
+    role: 'Quality Manager',
+  },
+  {
+    id: 3,
+    quote: 'Working with DODA GLOBAL has simplified our Indian sourcing operations. From sample approval to container delivery, their professionalism is unmatched in the agro-export space.',
+    name: 'Lisa Chen',
+    company: 'Asia Pacific Foods',
+    country: 'Singapore',
+    role: 'Import Manager',
+  },
+  {
+    id: 4,
+    quote: 'As a retail chain, we need consistent quality and reliable supply. DODA GLOBAL delivers on both fronts. Their direct-from-farm model gives us confidence in product traceability.',
+    name: 'Rajesh Mehta',
+    company: 'FreshMart Retail',
+    country: 'India',
+    role: 'Category Head',
+  },
+  {
+    id: 5,
+    quote: 'The specialty coffee beans from DODA GLOBAL have been a game-changer for our roastery. The estate-traceable lots and consistent cupping scores make sourcing effortless.',
+    name: 'James Walker',
+    company: 'Artisan Roasters Co.',
+    country: 'USA',
+    role: 'Head of Sourcing',
+  },
+];
