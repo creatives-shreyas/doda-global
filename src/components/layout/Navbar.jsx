@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navigation } from '../../data/navigation';
 import './Navbar.css';
@@ -9,6 +9,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -26,10 +27,43 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  const sectionMapping = {
+    '/': 'home',
+    '/about': 'about',
+    '/products': 'products',
+    '/export': 'export-network',
+    '/sustainability': 'sustainability',
+    '/contact': 'contact'
+  };
+
+  const handleLinkClick = (e, path) => {
+    const sectionId = sectionMapping[path];
+    if (sectionId) {
+      if (location.pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const yOffset = -80; // height of fixed navbar
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+          setMobileOpen(false);
+        }
+      }
+    }
+  };
+
+  const getToPath = (path) => {
+    const sectionId = sectionMapping[path];
+    if (sectionId) {
+      return location.pathname === '/' ? `#${sectionId}` : `/#${sectionId}`;
+    }
+    return path;
+  };
+
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} id="main-nav">
       <div className="navbar__inner container--wide">
-        <Link to="/" className="navbar__logo" id="navbar-logo">
+        <Link to="/" className="navbar__logo" id="navbar-logo" onClick={(e) => handleLinkClick(e, '/')}>
           <span className="navbar__logo-text">DODA</span>
           <span className="navbar__logo-accent">GLOBAL</span>
         </Link>
@@ -60,7 +94,12 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                       >
                         {item.children.map((child) => (
-                          <Link key={child.path} to={child.path} className="navbar__dropdown-link">
+                          <Link 
+                            key={child.path} 
+                            to={getToPath(child.path)} 
+                            onClick={(e) => handleLinkClick(e, child.path)}
+                            className="navbar__dropdown-link"
+                          >
                             {child.label}
                           </Link>
                         ))}
@@ -70,7 +109,8 @@ export default function Navbar() {
                 </>
               ) : (
                 <Link
-                  to={item.path}
+                  to={getToPath(item.path)}
+                  onClick={(e) => handleLinkClick(e, item.path)}
                   className={`navbar__link ${location.pathname === item.path ? 'navbar__link--active' : ''}`}
                 >
                   {item.label}
@@ -80,7 +120,12 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link to="/contact" className="navbar__cta btn btn-primary btn-sm" id="navbar-cta">
+        <Link 
+          to={getToPath('/contact')} 
+          onClick={(e) => handleLinkClick(e, '/contact')}
+          className="navbar__cta btn btn-primary btn-sm" 
+          id="navbar-cta"
+        >
           Get a Quote
         </Link>
 
@@ -118,13 +163,22 @@ export default function Navbar() {
                     <div className="navbar__mobile-group">
                       <span className="navbar__mobile-label">{item.label}</span>
                       {item.children.map((child) => (
-                        <Link key={child.path} to={child.path} className="navbar__mobile-link navbar__mobile-link--sub">
+                        <Link 
+                          key={child.path} 
+                          to={getToPath(child.path)} 
+                          onClick={(e) => handleLinkClick(e, child.path)}
+                          className="navbar__mobile-link navbar__mobile-link--sub"
+                        >
                           {child.label}
                         </Link>
                       ))}
                     </div>
                   ) : (
-                    <Link to={item.path} className="navbar__mobile-link">
+                    <Link 
+                      to={getToPath(item.path)} 
+                      onClick={(e) => handleLinkClick(e, item.path)}
+                      className="navbar__mobile-link"
+                    >
                       {item.label}
                     </Link>
                   )}
@@ -135,7 +189,12 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.4 }}
               >
-                <Link to="/contact" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '1rem' }}>
+                <Link 
+                  to={getToPath('/contact')} 
+                  onClick={(e) => handleLinkClick(e, '/contact')}
+                  className="btn btn-primary btn-lg" 
+                  style={{ width: '100%', marginTop: '1rem' }}
+                >
                   Get a Quote
                 </Link>
               </motion.div>
