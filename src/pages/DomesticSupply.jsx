@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import SEOHead from '../components/shared/SEOHead';
 import SectionHeading from '../components/ui/SectionHeading';
 import StatCard from '../components/ui/StatCard';
 import TextReveal from '../components/motion/TextReveal';
 import ScrollReveal from '../components/motion/ScrollReveal';
+import IndiaMap from '../components/ui/IndiaMap';
 import { domesticStats } from '../data/stats';
 import { domesticCities, domesticCapabilities } from '../data/domesticData';
 
 export default function DomesticSupply() {
+  const [activeCity, setActiveCity] = useState(null);
+
   return (
     <>
       <SEOHead title="Domestic Supply" description="DODA GLOBAL's pan-India supply network covering 24+ states — sourcing to distribution." />
@@ -37,22 +41,57 @@ export default function DomesticSupply() {
         </div>
       </section>
 
-      {/* Cities */}
+      {/* Interactive India Map & Presence Locations */}
       <section className="section">
         <div className="container">
           <SectionHeading overline="Presence" title="Key Locations" description="Our sourcing and distribution network spans India's most important agro-trade centers." />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-md)' }}>
-            {domesticCities.map((city) => (
-              <ScrollReveal key={city.name} className="card" style={{ padding: 'var(--space-md)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <h4 style={{ fontWeight: 600 }}>{city.name}</h4>
-                    <p className="body-sm color-secondary">{city.state}</p>
-                  </div>
-                  <span style={{ padding: '0.25rem 0.75rem', background: 'rgba(200,155,60,0.1)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-full)', fontSize: 'var(--text-xs)', color: 'var(--color-primary)' }}>{city.type}</span>
-                </div>
-              </ScrollReveal>
-            ))}
+          
+          <div className="domestic-presence-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2xl)', alignItems: 'start', marginTop: 'var(--space-xl)' }}>
+            {/* Left: India Vector Interactive Map */}
+            <ScrollReveal>
+              <IndiaMap activeCity={activeCity} setActiveCity={setActiveCity} />
+            </ScrollReveal>
+
+            {/* Right: City Cards List (Scrollable) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', maxHeight: '600px', overflowY: 'auto', paddingRight: '10px' }} className="domestic-cities-list">
+              {domesticCities.map((city) => {
+                const isHighlighted = activeCity === city.name;
+                return (
+                  <ScrollReveal 
+                    key={city.name} 
+                    className={`card ${isHighlighted ? 'card--highlighted' : ''}`}
+                    style={{ 
+                      padding: 'var(--space-md)', 
+                      cursor: 'pointer',
+                      borderColor: isHighlighted ? 'var(--color-primary)' : 'var(--color-border)',
+                      boxShadow: isHighlighted ? 'var(--shadow-glow)' : 'none',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={() => setActiveCity(city.name)}
+                    onMouseLeave={() => setActiveCity(null)}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <h4 style={{ fontWeight: 600, color: isHighlighted ? 'var(--color-primary)' : 'var(--color-text)' }}>{city.name}</h4>
+                        <p className="body-sm color-secondary">{city.state}</p>
+                      </div>
+                      <span style={{ 
+                        padding: '0.25rem 0.75rem', 
+                        background: isHighlighted ? 'var(--color-primary)' : 'rgba(200,155,60,0.1)', 
+                        color: isHighlighted ? 'var(--bg-surface)' : 'var(--color-primary)',
+                        border: '1px solid var(--color-border)', 
+                        borderRadius: 'var(--radius-full)', 
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 600,
+                        transition: 'all 0.3s ease'
+                      }}>
+                        {city.type}
+                      </span>
+                    </div>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
