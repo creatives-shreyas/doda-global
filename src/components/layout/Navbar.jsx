@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navigation } from '../../data/navigation';
+import Logo from '../shared/Logo';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -64,8 +65,7 @@ export default function Navbar() {
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} id="main-nav">
       <div className="navbar__inner container--wide">
         <Link to="/" className="navbar__logo" id="navbar-logo" onClick={(e) => handleLinkClick(e, '/')}>
-          <span className="navbar__logo-text">DODA</span>
-          <span className="navbar__logo-accent">GLOBAL</span>
+          <Logo height={42} />
         </Link>
 
         <nav className="navbar__nav" id="main-navigation">

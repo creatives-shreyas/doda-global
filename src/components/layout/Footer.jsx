@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../shared/Logo';
 import './Footer.css';
 
 export default function Footer() {
@@ -11,8 +12,7 @@ export default function Footer() {
         {/* Brand Column */}
         <div className="footer__brand">
           <Link to="/" className="footer__logo">
-            <span className="footer__logo-text">DODA</span>
-            <span className="footer__logo-accent">GLOBAL</span>
+            <Logo height={42} />
           </Link>
           <p className="footer__description">
             Premium agro sourcing, supply & export — connecting Indian farms to global markets since 2021.
