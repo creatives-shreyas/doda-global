@@ -9,13 +9,18 @@
   opacity: 0.9;
 }
 
-.doda-logo-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+.doda-logo-img {
+  pointer-events: none;
+  user-select: none;
 }
 
-/* Make sure the typography is correct */
-.logo-text-group text {
-  user-select: none;
+/* Original green/gold theme */
+.doda-logo--original .doda-logo-img {
+  filter: none;
+}
+
+/* Light/white theme for dark backgrounds */
+.doda-logo--light .doda-logo-img {
+  /* This turns the dark green and black pixels to soft cream/off-white */
+  filter: brightness(0) invert(0.95);
 }
